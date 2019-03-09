@@ -80,4 +80,4 @@ const styles = {
   }
 };
 
-export { Registration };
+export default Registration;

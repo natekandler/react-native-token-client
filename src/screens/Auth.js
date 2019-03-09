@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Login, Registration } from '../components';
+import { View, Text } from 'react-native';
+import Registration from '../components/Registration';
+import Login from '../components/Login';
 
 export default class Auth extends Component {
   state = { showLogin: false };
@@ -36,6 +37,7 @@ const styles = {
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems:'center'
+    alignItems:'center',
+    backgroundColor: "#fff"
   }
 };
