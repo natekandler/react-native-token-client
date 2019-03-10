@@ -3,11 +3,20 @@ import { View } from 'react-native';
 import { Loading } from './components/common/';
 import Auth from './screens/Auth';
 import LoggedIn from './screens/LoggedIn';
+import deviceStorage from './services/deviceStorage';
 
 export default class App extends Component {
-  state = {
-    jwt: '',
-    loading: true
+
+
+  constructor() {
+    super();
+    this.state = {
+      jwt: '',
+      loading: true
+    }
+    this.deleteJWT = deviceStorage.deleteJWT.bind(this);
+    this.loadJWT = deviceStorage.loadJWT.bind(this);
+    this.loadJWT();
   }
 
   newJWT = (jwt) => {
@@ -17,8 +26,9 @@ export default class App extends Component {
   }  
 
   renderHomeView() {
-    if (this.state.jwt) return <LoggedIn />
-    return <Auth newJWT={this.props.newJWT}/>
+    if (this.state.loading) return <Loading size={'large'} />;
+    if (this.state.jwt) return <LoggedIn jwt={this.state.jwt} deleteJWT={this.deleteJWT}/>;
+    return <Auth newJWT={this.props.newJWT}/>;
   }
 
   render() {
