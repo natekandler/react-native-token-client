@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Input, TextLink, Button, Loading } from './common';
+import axios from 'axios';
+import deviceStorage from '../services/deviceStorage';
 
 class Registration extends Component {
   state = {
@@ -10,6 +12,35 @@ class Registration extends Component {
     error: '',
     loading: false
   };
+
+  registerUser = () =>  {
+    const { email, password, password_confirmation } = this.state;
+    console.log("in register user")
+    axios.post("http://localhost:4000/api/v1/sign_up", {
+      user: {
+        email,
+        password, 
+        password_confirmation
+      }
+    })
+    .then(response => {
+      deviceStorage.saveKey("id_token", response.data.jwt);
+      this.props.newJWT(response.data.jwt)
+    })
+    .catch(error => {
+      console.log(`Registration Error: ${error}`);
+      this.onRegistrationFail();
+    })
+
+    this.setState({ error: '', loading: true });
+  }
+
+  onRegistrationFail = () => {
+    this.setState({
+      error: 'Registration Failed',
+      loading: false
+    })
+  }
 
   render() {
     const { email, password, password_confirmation, error, loading } = this.state;
@@ -50,7 +81,7 @@ class Registration extends Component {
           </Text>
 
           {!loading ?
-            <Button>
+            <Button onPress={this.registerUser}>
               Register
             </Button>
             :

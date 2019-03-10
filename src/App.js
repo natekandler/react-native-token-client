@@ -5,11 +5,20 @@ import Auth from './screens/Auth';
 import LoggedIn from './screens/LoggedIn';
 
 export default class App extends Component {
-  state = { jwt: '' };
+  state = {
+    jwt: '',
+    loading: true
+  }
+
+  newJWT = (jwt) => {
+    this.setState({
+      jwt: jwt
+    });
+  }  
 
   renderHomeView() {
     if (this.state.jwt) return <LoggedIn />
-    return <Auth />
+    return <Auth newJWT={this.props.newJWT}/>
   }
 
   render() {
