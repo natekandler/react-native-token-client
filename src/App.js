@@ -1,25 +1,22 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import { Loading } from './components/common/';
 import Auth from './screens/Auth';
 import LoggedIn from './screens/LoggedIn';
 
 export default class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      jwt: '',
-    }
+  state = { jwt: '' };
+
+  renderHomeView() {
+    if (this.state.jwt) return <LoggedIn />
+    return <Auth />
   }
 
   render() {
-     if (!this.state.jwt) {
-      return (
-        <Auth />
-      );
-    } else if (this.state.jwt) {
-      return (
-        <LoggedIn />
-      );
-    }
+    return (
+      <View style={{backgroundColor: '#fff', flex: 1}}>
+        { this.renderHomeView() }
+      </View>
+    )
   }
 }

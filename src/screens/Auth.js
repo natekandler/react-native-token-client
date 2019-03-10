@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { View } from 'react-native';
+import { TextLink } from '../components/common';
 import Registration from '../components/Registration';
 import Login from '../components/Login';
 
@@ -13,6 +14,7 @@ export default class Auth extends Component {
   }
 
   whichForm = () => {
+    console.log("login ", this.state.showLogin)
     if(!this.state.showLogin){
       return(
         <Registration authSwitch={this.authSwitch} />
@@ -26,9 +28,14 @@ export default class Auth extends Component {
 
   render() {
     return(
-      <View style={styles.container}>
-         {this.whichForm()}
-      </View>
+      <Fragment>
+        <View style={styles.container}>
+          {this.whichForm()}
+        </View>
+        <TextLink onPress={this.authSwitch}>
+          Already have an account? Log in!
+        </TextLink>
+      </Fragment>
     );
   }
 }
